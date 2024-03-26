@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'url'
 import { defineNuxtModule, addServerHandler, addTemplate } from '@nuxt/kit'
-import { resolve } from 'pathe'
+import { relative, resolve } from 'pathe'
 import fg from 'fast-glob'
 import { Server as SocketServer, ServerOptions } from 'socket.io'
 
@@ -30,6 +30,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
 
     nuxt.hook('builder:watch', async (e, path) => {
+      path = relative(nuxt.options.srcDir, resolve(nuxt.options.srcDir, path))
       if (e === 'change') {
         return
       }
